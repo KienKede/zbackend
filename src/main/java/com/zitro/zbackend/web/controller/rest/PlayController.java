@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Preconditions;
 import com.zitro.zbackend.exceptions.DeletedUserException;
 import com.zitro.zbackend.exceptions.NoFundsException;
 import com.zitro.zbackend.service.implementation.PlayService;
@@ -88,7 +87,8 @@ public class PlayController extends IdAbstractController<CreationPlayDTO, BasicP
 		try {
 			return getService().createPlay(play);
 		} catch (NoFundsException noFundsException) {
-			logger.error(noFundsException.getMessage(), noFundsException);
+			//Too much info in the logs commenting the second parameter
+			logger.error(noFundsException.getMessage()/*, noFundsException*/);
 			throw noFundsException;
 		}
 	}

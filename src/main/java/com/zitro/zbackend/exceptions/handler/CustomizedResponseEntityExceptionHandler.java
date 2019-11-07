@@ -2,6 +2,7 @@ package com.zitro.zbackend.exceptions.handler;
 
 import java.util.Date;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,6 +78,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), webRequest.getDescription(false));
 		
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(ConstraintViolationException.class)
+	public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest webRequest){
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), webRequest.getDescription(false));
+		
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.CONFLICT);
 	}
 	
 }
